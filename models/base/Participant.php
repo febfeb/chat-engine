@@ -10,6 +10,7 @@ use Yii;
  * This is the base-model class for table "participant".
  *
  * @property integer $id
+ * @property string $local_id
  * @property string $token
  * @property string $name
  * @property string $created_at
@@ -38,6 +39,7 @@ abstract class Participant extends \yii\db\ActiveRecord
         return [
             [['token', 'name', 'created_at'], 'required'],
             [['created_at'], 'safe'],
+            [['local_id'], 'string', 'max' => 100],
             [['token'], 'string', 'max' => 250],
             [['name'], 'string', 'max' => 200]
         ];
@@ -50,6 +52,7 @@ abstract class Participant extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'local_id' => 'Local ID',
             'token' => 'Token',
             'name' => 'Name',
             'created_at' => 'Created At',

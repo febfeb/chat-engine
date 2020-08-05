@@ -2,33 +2,33 @@
 
 namespace app\models;
 
+use app\models\base\Participant as BaseParticipant;
 use Yii;
-use \app\models\base\Participant as BaseParticipant;
-use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "participant".
  */
 class Participant extends BaseParticipant
 {
-
-    public function behaviors()
+    public function addToCache()
     {
-        return ArrayHelper::merge(
-            parent::behaviors(),
-            [
-                # custom behaviors
-            ]
-        );
+        $cache = Yii::$app->cache;
+        $arr = $cache->get("participant");
+        if ($arr == null) {
+            $arr = [];
+        }
+        $arr[$this->token] = $this->name;
+        $cache->set("participant", $arr);
     }
 
-    public function rules()
+    public static function getParticipantCache()
     {
-        return ArrayHelper::merge(
-            parent::rules(),
-            [
-                # custom validation rules
-            ]
-        );
+        $cache = Yii::$app->cache;
+        $arr = $cache->get("participant");
+        if ($arr == null) {
+            $arr = [];
+        }
+
+        return $arr;
     }
 }
